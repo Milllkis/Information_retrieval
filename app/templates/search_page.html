@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="search-container">
+    <div class="search-header">
+        <h2>Найдите то, что вам нужно!</h2>
+        <p>Введите ваш запрос ниже и выберите метод поиска.</p>
+    </div>
+
+    <form action="/results" method="get" class="search-form">
+        <div class="input-group">
+            <input type="text" id="query" name="query" placeholder="Что вы ищете?" required>
+            <button type="submit" class="btn-search">🔍</button>
+        </div>
+    
+        <div class="options-group">
+            <label for="method">Метод поиска:</label>
+            <select id="method" name="method">
+                <option value="tf-idf">TF-IDF</option>
+                <option value="bert">BERT</option>
+            </select>
+    
+            <label for="limit">Макс. результатов:</label>
+            <input type="number" id="limit" name="limit" value="5" min="1" max="100">
+    
+            <label for="relevance_score">Оценка релевантности:</label>
+            <select id="relevance_score" name="relevance_score">
+                <option value="true">Да</option>
+                <option value="false">Нет</option>
+            </select>
+        </div>
+    </form>    
+
+    <div class="saved-queries">
+        <h3>Ваши запросы:</h3>
+        <ul>
+            {% for query in saved_queries %}
+                <li><a href="{{ query.query_link }}">{{ query.query_text }}</a> (Метод: {{ query.method }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<section class="search-tips">
+    <h3>Советы по поиску</h3>
+    <ul>
+        <li>Используйте конкретные ключевые слова.</li>
+        <li>Попробуйте разные формулировки для получения лучших результатов.</li>
+        <li>Не забудьте проверить орфографию!</li>
+    </ul>
+</section>
+{% endblock %}

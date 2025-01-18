@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="results-section">
+    <h1>Результаты поиска для: "{{ query }}"</h1>
+    <p>Запрос выполнен за: {{ time }} секунд</p>
+
+    {% if results %}
+    <div class="results-container">
+        <ul class="results-list">
+            {% for result in results %}
+                {% if result.person_data %}
+                    <li class="result-item">
+                        <div class="result-box">
+                            <h4>ID документа: {{ result.doc_id }}</h4>
+                            <p><strong>Имя:</strong> {{ result.person_data.name }}</p>
+                            <p><strong>Биография:</strong> {{ result.person_data.biographies[0].text }} (<a href="{{ result.person_data.biographies[0].link }}">Ссылка</a>)</p>
+                            <p><strong>Категория:</strong> {{ result.person_data.categories[0].name }}</p>
+                            {% if result.cosine_sim %}
+                                <p><strong>Косинусная близость:</strong> {{ result.cosine_sim }}</p>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        <p class="no-results">К сожалению, ничего не найдено по вашему запросу.</p>
+    {% endif %}
+</section>
+{% endblock %}
